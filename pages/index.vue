@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="img-wrap">
-      <img src="~/assets/images/bibi.jpg">
+      <img src="./../assets/images/bibi.jpg">
     </div>
     <p>IG: bibibadaboobeepbeep</p>
     <a-button :loading="loading" @click="onSubmit">
