@@ -11,15 +11,34 @@
 </template>
 
 <script>
+// import userAPI from '~/api/user'
+import axios from 'axios'
 export default {
   data () {
     return {
-      loading: false
+      loading: false,
+      data: {
+        email: 'gg@gmail.com',
+        password: 'password'
+      }
     }
   },
   methods: {
-    onSubmit () {
+    async onSubmit () {
       this.loading = true
+      try {
+        const data = await axios.post('http://192.168.2.184:9000/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
+        console.log('boo', data)
+      } catch (error) {
+        console.log('err', error)
+      }
+      // userAPI.login(this.data)
+      //   .then((result) => {
+      //     console.log('boo', result)
+      //     this.loading = false
+      //   }).catch((err) => {
+      //     console.log(err)
+      //   })
     }
   }
 }
