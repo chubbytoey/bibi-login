@@ -6,7 +6,7 @@ const config = {
   version: '0.1',
   environment,
   endpoint: {
-    backend: 'http://192.168.2.184:9000/api'
+    backend: 'https://dtm-api.avalue.co.th/api'
   },
   authentication: {
     storageName: 'POS-HI-SUSHI'
@@ -22,17 +22,17 @@ const runtimeConfig = {
 const environmentConfig = {
   local: {
     endpoint: {
-      backend: 'http://192.168.2.184:9000/api'
+      backend: 'https://dtm-api.avalue.co.th/api'
     }
   },
   development: {
     endpoint: {
-      backend: 'http://192.168.2.184:9000/api'
+      backend: 'https://dtm-api.avalue.co.th/api'
     }
   },
   production: {
     endpoint: {
-      backend: 'http://192.168.2.184:9000/api'
+      backend: 'https://dtm-api.avalue.co.th/api'
     }
   }
 }

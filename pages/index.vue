@@ -18,8 +18,8 @@ export default {
     return {
       loading: false,
       data: {
-        email: 'gg@gmail.com',
-        password: 'password'
+        email: 'kunjanphorn.b@gmail.com',
+        password: 'avalue'
       }
     }
   },
@@ -27,7 +27,7 @@ export default {
     async onSubmit () {
       this.loading = true
       try {
-        const data = await axios.post('http://192.168.2.184:9000/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
+        const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
         console.log('boo', data)
       } catch (error) {
         console.log('err', error)
