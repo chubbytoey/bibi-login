@@ -20,7 +20,7 @@ export default {
     return {
       loading: false,
       data: {
-        email: 'kunjanphorn.b@gmail.com',
+        email: 'kunjanaphorn.b@gmail.com',
         password: 'avalue'
       }
     }
@@ -31,7 +31,10 @@ export default {
       console.log(this.data)
       try {
         const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
-        console.log('boo', data)
+        const url = data.data.url.split('?ssoToken=')
+        sessionStorage.setItem('ssoGlobal', url[1])
+        const redirect = window.location.href.split('?url=')
+        window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
       }
