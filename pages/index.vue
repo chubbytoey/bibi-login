@@ -32,8 +32,9 @@ export default {
       try {
         const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
         const url = data.data.url.split('?ssoToken=')
-        localStorage.setItem('ssoGlobal', url[1])
+        // localStorage.setItem('ssoGlobal', url[1])
         const redirect = window.location.href.split('?url=')
+        window.postMessage(url[1], redirect)
         window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
