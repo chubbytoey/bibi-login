@@ -4,6 +4,8 @@
       <img src="./../bibi.JPG">
     </div>
     <p>IG: bibibadaboobeepbeep</p>
+    <a-input v-model="data.email" placeholder="email" />
+    <a-input v-model="data.password" placeholder="password" />
     <a-button :loading="loading" @click="onSubmit">
       Login
     </a-button>
@@ -26,19 +28,13 @@ export default {
   methods: {
     async onSubmit () {
       this.loading = true
+      console.log(this.data)
       try {
         const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
         console.log('boo', data)
       } catch (error) {
         console.log('err', error)
       }
-      // userAPI.login(this.data)
-      //   .then((result) => {
-      //     console.log('boo', result)
-      //     this.loading = false
-      //   }).catch((err) => {
-      //     console.log(err)
-      //   })
     }
   }
 }
@@ -51,6 +47,10 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: #008080;
+  & input {
+    width: 30%;
+    margin-bottom: 6px;
+  }
   & > .img-wrap {
     width: 300px;
     height: 300px;
@@ -63,6 +63,7 @@ export default {
     }
   }
   & button {
+    margin-top: 32px;
     background-color: #fff;
     border: none;
     width: 180px;
