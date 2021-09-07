@@ -35,8 +35,13 @@ export default {
         // const url = data.data.url.split('?ssoToken=')
         // localStorage.setItem('ssoGlobal', url[1])
         const redirect = window.location.href.split('?url=')
-        const win = document.getElementById('ifr').contentWindow
-        win.postMessage(this.data, 'https://peaceful-lalande-310253.netlify.app/')
+        // const win = document.getElementById('ifr').contentWindow
+        // win.postMessage(this.data, 'https://peaceful-lalande-310253.netlify.app/')
+        const popup = window.open()
+        popup.postMessage('hello there!', 'https://bibi-sso.vercel.app/')
+        window.addEventListener('message', (event) => {
+          console.log(event)
+        }, false)
         window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
