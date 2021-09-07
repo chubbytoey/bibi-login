@@ -36,7 +36,7 @@ export default {
         // localStorage.setItem('ssoGlobal', url[1])
         const redirect = window.location.href.split('?url=')
         const win = document.getElementById('ifr').contentWindow
-        win.postMessage('hihi', redirect)
+        win.postMessage('hihi', '*')
         window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
