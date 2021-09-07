@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <iframe id="ifr" style="display:none;" />
+    <iframe id="ifr" style="display:none;" :onload="onSubmit()" src="https://bibi-sso.vercel.app/" />
     <div class="img-wrap">
       <img src="./../bibi.JPG">
     </div>
