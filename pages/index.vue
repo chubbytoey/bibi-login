@@ -31,7 +31,7 @@ export default {
       console.log(ssoToken)
       const redirect = window.location.href.split('?url=')
       console.log('redirect', unescape(redirect[0]) + '?ssoToken=' + ssoToken)
-      window.location.href = unescape(redirect[0]) + '?ssoToken=' + ssoToken
+      // window.location.href = unescape(redirect[0]) + '?ssoToken=' + ssoToken
     }
   },
   methods: {
