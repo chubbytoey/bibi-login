@@ -26,11 +26,11 @@ export default {
     }
   },
   mounted () {
-    const ssoTolken = localStorage.getItem('ssoGlobal')
-    if (ssoTolken) {
-      console.log(ssoTolken)
+    const ssoToken = localStorage.getItem('ssoGlobal')
+    if (ssoToken) {
+      console.log(ssoToken)
       const redirect = window.location.href.split('?url=')
-      window.location.href = unescape(redirect[1])
+      window.location.href = unescape(redirect[1] + '?ssoToken=' + ssoToken)
     }
   },
   methods: {
