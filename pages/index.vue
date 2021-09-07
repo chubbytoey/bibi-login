@@ -27,7 +27,7 @@ export default {
   },
   mounted () {
     const ssoToken = localStorage.getItem('ssoGlobal')
-    if (ssoToken) {
+    if (ssoToken && this.$route.query.url) {
       console.log(ssoToken)
       const redirect = window.location.href.split('?url=')
       console.log('redirect', unescape(redirect[1]) + '?ssoToken=' + ssoToken)
