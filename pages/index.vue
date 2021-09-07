@@ -27,12 +27,12 @@ export default {
   },
   mounted () {
     const ssoToken = localStorage.getItem('ssoGlobal')
-    console.log('hey', ssoToken)
-    // if (ssoToken) {
-    //   console.log(ssoToken)
-    //   const redirect = window.location.href.split('?url=')
-    //   window.location.href = unescape(window.location.href + '?ssoToken=' + ssoToken)
-    // }
+    if (ssoToken) {
+      console.log(ssoToken)
+      const redirect = window.location.href.split('?url=')
+      console.log('redirect', redirect)
+      window.location.href = unescape(redirect[0] + '?ssoToken=' + ssoToken)
+    }
   },
   methods: {
     async onSubmit () {
