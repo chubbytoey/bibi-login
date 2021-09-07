@@ -43,7 +43,7 @@ export default {
         const url = data.data.url.split('?ssoToken=')
         localStorage.setItem('ssoGlobal', url[1])
         const redirect = window.location.href.split('?url=')
-        window.location.href = unescape(redirect[1])
+        window.location.href = unescape(redirect[1] + '?ssoToken=' + url[1])
       } catch (error) {
         console.log('err', error)
       }
