@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <iframe id="ifr" style="display:none;" src="http://example.com/getlocalstorage.html" />
     <div class="img-wrap">
       <img src="./../bibi.JPG">
     </div>
@@ -14,7 +15,7 @@
 
 <script>
 // import userAPI from '~/api/user'
-import axios from 'axios'
+// import axios from 'axios'
 export default {
   data () {
     return {
@@ -34,7 +35,8 @@ export default {
         // const url = data.data.url.split('?ssoToken=')
         // localStorage.setItem('ssoGlobal', url[1])
         const redirect = window.location.href.split('?url=')
-        window.postMessage('hihi', redirect)
+        const win = document.getElementById('ifr').contentWindow
+        win.postMessage('hihi', redirect)
         window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
