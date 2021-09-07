@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <iframe id="ifr" style="display:none;" src="https://bibi-sso.vercel.app/" />
     <div class="img-wrap">
       <img src="./../bibi.JPG">
     </div>
@@ -15,7 +14,7 @@
 
 <script>
 // import userAPI from '~/api/user'
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -26,18 +25,24 @@ export default {
       }
     }
   },
+  mounted () {
+    const ssoTolken = localStorage.getItem('ssoGlobal')
+    if (ssoTolken) {
+      console.log(ssoTolken)
+      const redirect = window.location.href.split('?url=')
+      window.location.href = unescape(redirect[1])
+    }
+  },
   methods: {
-    onSubmit () {
+    async onSubmit () {
       this.loading = true
       console.log(this.data)
       try {
-        // const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
-        // const url = data.data.url.split('?ssoToken=')
-        // localStorage.setItem('ssoGlobal', url[1])
-        // const redirect = window.location.href.split('?url=')
-        const win = document.getElementById('ifr').contentWindow
-        win.postMessage('hey', '*')
-        // window.location.href = unescape(redirect[1])
+        const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
+        const url = data.data.url.split('?ssoToken=')
+        localStorage.setItem('ssoGlobal', url[1])
+        const redirect = window.location.href.split('?url=')
+        window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
       }
