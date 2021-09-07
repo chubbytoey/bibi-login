@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <iframe id="ifr" style="display:none;" :onload="onSubmit()" src="https://bibi-sso.vercel.app/" />
+    <iframe id="ifr" style="display:none;" src="https://bibi-sso.vercel.app/" />
     <div class="img-wrap">
       <img src="./../bibi.JPG">
     </div>
@@ -36,7 +36,7 @@ export default {
         // localStorage.setItem('ssoGlobal', url[1])
         const redirect = window.location.href.split('?url=')
         const win = document.getElementById('ifr').contentWindow
-        win.postMessage('hihi', '*')
+        win.postMessage('hihi', 'https://peaceful-lalande-310253.netlify.app/')
         window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
