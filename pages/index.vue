@@ -34,8 +34,13 @@ export default {
   },
   watch: {
     'profile' (val) {
-      this.key = 'logout'
-      this.disable = true
+      if (this.key === 'Login') {
+        this.key = 'Logout'
+        this.disable = true
+      } else {
+        this.key = 'Logout'
+        this.disable = false
+      }
     }
   },
   mounted () {
