@@ -6,7 +6,7 @@
     <p>IG: {{ profile ? profile.email:'bibibi' }}</p>
     <a-input v-model="data.email" placeholder="email" :disabled="disable" />
     <a-input v-model="data.password" placeholder="password" :disabled="disable" />
-    <a-button :loading="loading" :disabled="disable" @click="onSubmit">
+    <a-button :loading="loading" @click="onSubmit">
       {{ key }}
     </a-button>
   </div>
