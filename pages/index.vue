@@ -53,6 +53,7 @@ export default {
         window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
+        this.loading = false
         this.$message.error(
           'This is a prompt message for success, and it will disappear in 10 seconds',
           10
