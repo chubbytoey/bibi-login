@@ -15,37 +15,48 @@
 <script>
 // import userAPI from '~/api/user'
 import axios from 'axios'
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
+
 export default {
   data () {
     return {
       loading: false,
       data: {
         email: 'kunjanaphorn.b@gmail.com',
-        password: 'avalue'
+        password: 'avalue',
+        fingerPrintId: ''
       }
     }
   },
   mounted () {
-    const ssoToken = localStorage.getItem('ssoGlobal')
-    if (ssoToken && this.$route.query.url) {
-      console.log(ssoToken)
-      const redirect = window.location.href.split('?url=')
-      console.log('redirect', unescape(redirect[1]) + '?ssoToken=' + ssoToken)
-      window.location.href = unescape(redirect[1]) + '?ssoToken=' + ssoToken
-    }
+    // const ssoToken = localStorage.getItem('ssoGlobal')
+    // if (ssoToken && this.$route.query.url) {
+    //   console.log(ssoToken)
+    //   const redirect = window.location.href.split('?url=')
+    //   console.log('redirect', unescape(redirect[1]) + '?ssoToken=' + ssoToken)
+    //   window.location.href = unescape(redirect[1]) + '?ssoToken=' + ssoToken
+    // }
   },
   methods: {
     async onSubmit () {
       this.loading = true
-      console.log(this.data)
+      const fpPromise = FingerprintJS.load()
+      const fp = await fpPromise
+      const result = await fp.get()
+      // const visitorId = result.visitorId
+      this.fingerPrintId = result.visitorId
       try {
-        const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin?url=https%3A%2F%2Fwww.google.com', this.data)
-        const url = data.data.url.split('?ssoToken=')
-        localStorage.setItem('ssoGlobal', url[1])
+        await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
+        // const url = data.data.url.split('?ssoToken=')
+        // localStorage.setItem('ssoGlobal', url[1])
         const redirect = window.location.href.split('?url=')
-        window.location.href = unescape(redirect[1] + '?ssoToken=' + url[1])
+        window.location.href = unescape(redirect[1])
       } catch (error) {
         console.log('err', error)
+        this.$message.error(
+          'This is a prompt message for success, and it will disappear in 10 seconds',
+          10
+        )
       }
     }
   }
