@@ -3,11 +3,11 @@
     <div class="img-wrap">
       <img src="./../bibi.JPG">
     </div>
-    <p>IG: bibibadaboobeepbeep</p>
+    <p>IG: {{ profile ? profile.email:'bibibi' }}</p>
     <a-input v-model="data.email" placeholder="email" />
     <a-input v-model="data.password" placeholder="password" />
-    <a-button :loading="loading" @click="onSubmit">
-      Login
+    <a-button :loading="loading" :disabled="disable" @click="onSubmit">
+      {{ key }}
     </a-button>
   </div>
 </template>
@@ -25,7 +25,17 @@ export default {
         email: 'kunjanaphorn.b@gmail.com',
         password: 'avalue',
         fingerPrintId: ''
-      }
+      },
+      key: 'Login',
+      verify: {},
+      profile: {},
+      disable: false
+    }
+  },
+  watch: {
+    'profile' (val) {
+      this.key = 'logout'
+      this.disable = true
     }
   },
   mounted () {
@@ -39,25 +49,47 @@ export default {
   },
   methods: {
     async onSubmit () {
-      this.loading = true
-      const fpPromise = FingerprintJS.load()
-      const fp = await fpPromise
-      const result = await fp.get()
-      // const visitorId = result.visitorId
-      this.data.fingerPrintId = result.visitorId
-      try {
-        await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
-        // const url = data.data.url.split('?ssoToken=')
-        // localStorage.setItem('ssoGlobal', url[1])
-        const redirect = window.location.href.split('?url=')
-        window.location.href = unescape(redirect[1])
-      } catch (error) {
-        console.log('err', error)
-        this.loading = false
-        this.$message.error(
-          'This is a prompt message for success, and it will disappear in 10 seconds',
-          10
-        )
+      if (this.key === 'Login') {
+        this.loading = true
+        const fpPromise = FingerprintJS.load()
+        const fp = await fpPromise
+        const result = await fp.get()
+        this.data.fingerPrintId = result.visitorId
+        try {
+          const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
+          const url = data.data.url.split('?ssoToken=')
+          localStorage.setItem('ssoGlobal', url[1])
+          if (this.$route.query) {
+            const redirect = window.location.href.split('?url=')
+            window.location.href = unescape(redirect[1])
+          } else {
+            const verify = await axios.post('https://dtm-api.avalue.co.th/api/verifySSOToken', {}, {
+              headers: {
+                Authorization: 'Bearer ' + this.data.fingerPrintId
+              }
+            })
+            this.verify = verify.data
+            localStorage.setItem('accessToken', this.verify.accessToken)
+            localStorage.setItem('refreshToken', this.verify.refreshToken)
+
+            const profile = await axios.get('https://dtm-api.avalue.co.th/api/newProfile', {
+              headers: {
+                Authorization: 'Bearer ' + this.verify.accessToken
+              }
+            })
+
+            this.profile = profile.data
+
+            this.key = 'Logout'
+          }
+        } catch (error) {
+          console.log('err', error)
+          this.loading = false
+          this.$message.error(
+            'This is a prompt message for success, and it will disappear in 10 seconds',
+            10
+          )
+        }
       }
     }
   }
