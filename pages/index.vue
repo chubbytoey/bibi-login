@@ -4,8 +4,8 @@
       <img src="./../bibi.JPG">
     </div>
     <p>IG: {{ profile ? profile.email:'bibibi' }}</p>
-    <a-input v-model="data.email" placeholder="email" />
-    <a-input v-model="data.password" placeholder="password" />
+    <a-input v-model="data.email" placeholder="email" :disabled="disable" />
+    <a-input v-model="data.password" placeholder="password" :disabled="disable" />
     <a-button :loading="loading" :disabled="disable" @click="onSubmit">
       {{ key }}
     </a-button>
