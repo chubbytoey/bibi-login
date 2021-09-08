@@ -41,16 +41,50 @@ export default {
       }
     }
   },
-  mounted () {
-    if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
-      if (!this.$route.query.url) {
+  async mounted () {
+    try {
+      console.log('access', localStorage.getItem('accessToken'))
+      if (!localStorage.getItem('accessToken') || !localStorage.getItem('refreshToken')) {
+        const fpPromise = FingerprintJS.load()
+        const fp = await fpPromise
+        const result = await fp.get()
+        const visitorId = result.visitorId
+
+        const verify = await axios.post('https://dtm-api.avalue.co.th/api/verifySSOToken', {}, {
+          headers: {
+            Authorization: 'Bearer ' + visitorId
+          }
+        })
+        this.verify = verify.data
+        console.log('verify token', this.verify, verify)
+
+        localStorage.setItem('accessToken', this.verify.accessToken)
+        localStorage.setItem('refreshToken', this.verify.refreshToken)
+
         this.getProfile()
       } else {
-        const redirect = this.$route.query.url
-        console.log('redirect', redirect, unescape(redirect))
-        window.location.href = redirect
+        console.log('hey')
+        if (!this.$route.query.url) {
+          this.getProfile()
+        } else {
+          const redirect = this.$route.query.url
+          console.log('redirect', redirect, unescape(redirect))
+          window.location.href = redirect
+        }
       }
+    } catch (error) {
+      console.log(error)
     }
+
+    // if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
+    //   if (!this.$route.query.url) {
+    //     this.getProfile()
+    //   } else {
+    //     const redirect = this.$route.query.url
+    //     console.log('redirect', redirect, unescape(redirect))
+    //     window.location.href = redirect
+    //   }
+    // }
   },
   methods: {
     async getProfile () {
@@ -66,6 +100,7 @@ export default {
     },
     async onSubmit () {
       if (this.key === 'Login') {
+        console.log('login')
         this.loading = true
         const fpPromise = FingerprintJS.load()
         const fp = await fpPromise
@@ -99,6 +134,7 @@ export default {
           )
         }
       } else {
+        console.log('logout')
         await axios.post('https://dtm-api.avalue.co.th/api/newLogout', {}, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('accessToken')
