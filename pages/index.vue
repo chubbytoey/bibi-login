@@ -64,10 +64,15 @@ export default {
           await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
           // const url = data.data.url.split('?ssoToken=')
           // localStorage.setItem('ssoGlobal', url[1])
-          if (this.$route.query) {
+          console.log('before')
+          if (this.$route.query.url) {
+            console.log('after 1')
+
             const redirect = this.$route.query.url
             window.location.href = unescape(redirect[1])
           } else {
+            console.log('after 2')
+
             const verify = await axios.post('https://dtm-api.avalue.co.th/api/verifySSOToken', {}, {
               headers: {
                 Authorization: 'Bearer ' + this.data.fingerPrintId
