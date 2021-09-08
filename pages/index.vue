@@ -98,6 +98,15 @@ export default {
             10
           )
         }
+      } else {
+        await axios.post('https://dtm-api.avalue.co.th/api/newLogout', {}, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        })
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
+        window.location.reload()
       }
     }
   }
