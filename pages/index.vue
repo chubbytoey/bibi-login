@@ -44,7 +44,7 @@ export default {
       const fp = await fpPromise
       const result = await fp.get()
       // const visitorId = result.visitorId
-      this.fingerPrintId = result.visitorId
+      this.data.fingerPrintId = result.visitorId
       try {
         await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
         // const url = data.data.url.split('?ssoToken=')
