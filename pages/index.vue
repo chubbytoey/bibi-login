@@ -42,15 +42,22 @@ export default {
     }
   },
   mounted () {
-    // const ssoToken = localStorage.getItem('ssoGlobal')
-    // if (ssoToken && this.$route.query.url) {
-    //   console.log(ssoToken)
-    //   const redirect = window.location.href.split('?url=')
-    //   console.log('redirect', unescape(redirect[1]) + '?ssoToken=' + ssoToken)
-    //   window.location.href = unescape(redirect[1]) + '?ssoToken=' + ssoToken
-    // }
+    if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
+      this.getProfile()
+    }
   },
   methods: {
+    async getProfile () {
+      const profile = await axios.get('https://dtm-api.avalue.co.th/api/newProfile', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      })
+
+      this.profile = profile.data
+
+      this.key = 'Logout'
+    },
     async onSubmit () {
       if (this.key === 'Login') {
         this.loading = true
@@ -60,17 +67,10 @@ export default {
         this.data.fingerPrintId = result.visitorId
         try {
           await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
-          // const url = data.data.url.split('?ssoToken=')
-          // localStorage.setItem('ssoGlobal', url[1])
-          console.log('before')
           if (this.$route.query.url) {
-            console.log('after 1')
-
             const redirect = this.$route.query.url
             window.location.href = unescape(redirect[1])
           } else {
-            console.log('after 2')
-
             const verify = await axios.post('https://dtm-api.avalue.co.th/api/verifySSOToken', {}, {
               headers: {
                 Authorization: 'Bearer ' + this.data.fingerPrintId
@@ -80,24 +80,13 @@ export default {
             localStorage.setItem('accessToken', this.verify.accessToken)
             localStorage.setItem('refreshToken', this.verify.refreshToken)
 
-            const profile = await axios.get('https://dtm-api.avalue.co.th/api/newProfile', {
-              headers: {
-                Authorization: 'Bearer ' + this.verify.accessToken
-              }
-            })
-
-            this.profile = profile.data
-
-            this.key = 'Logout'
+            this.getProfile()
             this.loading = false
-
-            console.log('key', this.key, this.profile)
           }
         } catch (error) {
-          console.log('err', error)
           this.loading = false
           this.$message.error(
-            'This is a prompt message for success, and it will disappear in 10 seconds',
+            'Error message, and it will disappear in 10 seconds',
             10
           )
         }
