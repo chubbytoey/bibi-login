@@ -89,7 +89,7 @@ export default {
             this.profile = profile.data
 
             this.key = 'Logout'
-            console.log('key', this.key)
+            console.log('key', this.key, this.profile)
           }
         } catch (error) {
           console.log('err', error)
