@@ -61,9 +61,9 @@ export default {
         const result = await fp.get()
         this.data.fingerPrintId = result.visitorId
         try {
-          const data = await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
-          const url = data.data.url.split('?ssoToken=')
-          localStorage.setItem('ssoGlobal', url[1])
+          await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
+          // const url = data.data.url.split('?ssoToken=')
+          // localStorage.setItem('ssoGlobal', url[1])
           if (this.$route.query) {
             const redirect = this.$route.query.url
             window.location.href = unescape(redirect[1])
