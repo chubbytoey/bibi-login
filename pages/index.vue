@@ -43,7 +43,12 @@ export default {
   },
   mounted () {
     if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
-      this.getProfile()
+      if (this.$route.query.url) {
+        this.getProfile()
+      } else {
+        const redirect = this.$route.query.url
+        window.location.href = unescape(redirect[1])
+      }
     }
   },
   methods: {
