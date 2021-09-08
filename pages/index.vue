@@ -43,7 +43,7 @@ export default {
   },
   mounted () {
     if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
-      if (this.$route.query.url) {
+      if (!this.$route.query.url) {
         this.getProfile()
       } else {
         const redirect = this.$route.query.url
