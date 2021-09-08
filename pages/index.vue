@@ -47,7 +47,8 @@ export default {
         this.getProfile()
       } else {
         const redirect = this.$route.query.url
-        window.location.href = unescape(redirect[1])
+        console.log('redirect', redirect)
+        // window.location.href = unescape(redirect[1])
       }
     }
   },
@@ -74,7 +75,9 @@ export default {
           await axios.post('https://dtm-api.avalue.co.th/api/newLogin', this.data)
           if (this.$route.query.url) {
             const redirect = this.$route.query.url
-            window.location.href = unescape(redirect[1])
+            console.log('redirect', redirect)
+
+            // window.location.href = unescape(redirect[1])
           } else {
             const verify = await axios.post('https://dtm-api.avalue.co.th/api/verifySSOToken', {}, {
               headers: {
