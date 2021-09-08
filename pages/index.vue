@@ -65,7 +65,7 @@ export default {
           const url = data.data.url.split('?ssoToken=')
           localStorage.setItem('ssoGlobal', url[1])
           if (this.$route.query) {
-            const redirect = window.location.href.split('?url=')
+            const redirect = this.$route.query.url
             window.location.href = unescape(redirect[1])
           } else {
             const verify = await axios.post('https://dtm-api.avalue.co.th/api/verifySSOToken', {}, {
