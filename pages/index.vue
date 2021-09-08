@@ -33,12 +33,10 @@ export default {
     }
   },
   watch: {
-    'profile' (val) {
+    'key' (val) {
       if (this.key === 'Login') {
-        this.key = 'Logout'
         this.disable = true
       } else {
-        this.key = 'Logout'
         this.disable = false
       }
     }
@@ -91,6 +89,7 @@ export default {
             this.profile = profile.data
 
             this.key = 'Logout'
+            console.log('key', this.key)
           }
         } catch (error) {
           console.log('err', error)
