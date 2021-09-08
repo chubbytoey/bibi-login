@@ -48,7 +48,7 @@ export default {
       } else {
         const redirect = this.$route.query.url
         console.log('redirect', redirect)
-        // window.location.href = unescape(redirect[1])
+        window.location.href = unescape(redirect[1])
       }
     }
   },
@@ -77,7 +77,7 @@ export default {
             const redirect = this.$route.query.url
             console.log('redirect', redirect)
 
-            // window.location.href = unescape(redirect[1])
+            window.location.href = unescape(redirect[1])
           } else {
             const verify = await axios.post('https://dtm-api.avalue.co.th/api/verifySSOToken', {}, {
               headers: {
